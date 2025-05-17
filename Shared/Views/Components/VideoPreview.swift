@@ -24,6 +24,7 @@ struct VideoPreviewView: View {
     }
 }
 
+#if os(macOS)
 struct VideoPlayer: NSViewRepresentable {
     let player: AVPlayer
 
@@ -40,3 +41,21 @@ struct VideoPlayer: NSViewRepresentable {
         }
     }
 }
+#elseif os(iOS)
+struct VideoPlayer: UIViewControllerRepresentable {
+    let player: AVPlayer
+
+    func makeUIViewController(context: Context) -> AVPlayerViewController {
+        let controller = AVPlayerViewController()
+        controller.player = player
+        controller.showsPlaybackControls = true
+        return controller
+    }
+
+    func updateUIViewController(_ uiViewController: AVPlayerViewController, context: Context) {
+        if uiViewController.player != player {
+            uiViewController.player = player
+        }
+    }
+}
+#endif

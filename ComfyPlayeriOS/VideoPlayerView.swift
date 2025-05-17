@@ -2,13 +2,15 @@
 //  VideoPlayerView.swift
 //  ComfyPlayer
 //
-//  Created by Aryan Rogye on 5/16/25.
+//  Created by Aryan Rogye on 5/17/25.
 //
+
 import SwiftUI
 import AVKit
 import UniformTypeIdentifiers
 
 struct VideoPlayerView: View {
+    
     @State private var libraryName: String = ""
     @State private var libraryVideos: [URL] = []
     
@@ -160,7 +162,7 @@ struct VideoPlayerView: View {
     
     @ViewBuilder
     func showSelectedVideo(_ video: URL) -> some View {
-        VideoPreviewView(player: AVPlayer(url: video))
+//        VideoPreviewView(player: AVPlayer(url: video))
     }
     
     @ViewBuilder
@@ -209,9 +211,6 @@ struct VideoPlayerView: View {
             }
             .buttonStyle(.plain)
         }
-        .onDrop(of: [UTType.fileURL.identifier, UTType.image.identifier], isTargeted: $isDroppingFiles) { providers in
-            handleDrop(providers: providers)
-        }
     }
     
     @ViewBuilder
@@ -230,96 +229,17 @@ struct VideoPlayerView: View {
     }
     
     func openVideoPicker() {
-        let panel = NSOpenPanel()
-        panel.allowedContentTypes = [.movie]
-        panel.allowsMultipleSelection = false
-        panel.canChooseDirectories = false
-
-        if panel.runModal() == .OK {
-            withAnimation(.easeInOut(duration: 0.2)) {
-                selectedVideo = panel.url
-            }
-        }
+//        let panel = NSOpenPanel()
+//        panel.allowedContentTypes = [.movie]
+//        panel.allowsMultipleSelection = false
+//        panel.canChooseDirectories = false
+//
+//        if panel.runModal() == .OK {
+//            withAnimation(.easeInOut(duration: 0.2)) {
+//                selectedVideo = panel.url
+//            }
+//        }
     }
-    
-    private func handleDrop(providers: [NSItemProvider]) -> Bool {
-        
-        let fm = FileManager.default
-        let sessionDir = fm.temporaryDirectory.appendingPathComponent("FileDropperSession-\(UUID().uuidString)", isDirectory: true)
-        try? fm.createDirectory(at: sessionDir, withIntermediateDirectories: true)
-        
-        for provider in providers {
-            /// ---------- Finder files ----------
-            if provider.hasItemConformingToTypeIdentifier(UTType.fileURL.identifier) {
-                
-                provider.loadInPlaceFileRepresentation(forTypeIdentifier: UTType.fileURL.identifier) {
-                    url, inPlace, _ in
-                    guard let srcURL = url else { return }
-
-                    let fileName = UUID().uuidString + ".mov" // Default fallback extension
-                    let dstURL = sessionDir.appendingPathComponent(fileName)
-
-                    do {
-                        try FileManager.default.copyItem(at: srcURL, to: dstURL)
-
-                        if let typeID = try? dstURL.resourceValues(forKeys: [.typeIdentifierKey]).typeIdentifier,
-                           let type = UTType(typeID),
-                           type.conforms(to: .movie) {
-                            print("🎥 Accepted video file: \(fileName)")
-                            processFile(at: dstURL, copyIfNeeded: false, sessionDir: sessionDir)
-                        } else {
-                            print("❌ File is not a recognized video type: \(fileName)")
-                        }
-                    } catch {
-                        print("❌ Failed to copy temp file: \(error.localizedDescription)")
-                    }
-                }
-                
-            // ---------- Images / screenshots ----------
-            } else if provider.canLoadObject(ofClass: NSImage.self) {
-                _ = provider.loadObject(ofClass: NSImage.self) { object, _ in
-                    guard let img = object as? NSImage,
-                          let tiff = img.tiffRepresentation,
-                          let rep  = NSBitmapImageRep(data: tiff),
-                          let png  = rep.representation(using: .png, properties: [:])
-                    else { return }
-                    
-                    let tmpURL = sessionDir.appendingPathComponent(
-                        "DroppedImage-\(UUID()).png")
-                    
-                    Task.detached(priority: .utility) {
-                        try? png.write(to: tmpURL)   // fast, one write
-                        await processFile(at: tmpURL,
-                                          copyIfNeeded: false,
-                                          sessionDir: sessionDir)
-                    }
-                }
-            }
-            
-            // ---------- Promised files ----------
-            else if provider.registeredTypeIdentifiers.contains("com.apple.filepromise") {
-                provider.loadDataRepresentation(forTypeIdentifier: "com.apple.filepromise") { _, error in
-                    if let error = error {
-                        print("❌ Failed to receive file promise: \(error)")
-                        return
-                    }
-                    print("ℹ️ File promise received — but not handled in this version")
-                }
-            }
-        }
-        
-        return true
-    }
-    
-    private func processFile(at url: URL,
-                             copyIfNeeded: Bool,
-                             sessionDir: URL) {
-        /// We now know the file is a video we can set the URL
-        withAnimation(.easeInOut(duration: 0.2)) {
-            selectedVideo = url
-        }
-    }
-
 }
 
 #Preview {

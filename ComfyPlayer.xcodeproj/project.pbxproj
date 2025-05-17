@@ -11,10 +11,45 @@
 		9BA00A332DD7D8F0007CFADD /* ComfyPlayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ComfyPlayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		9B62BC352DD917B900D384D1 /* Exceptions for "Libraries" folder in "ComfyPlayeriOS" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				LibrariesModel.swift,
+				Library.swift,
+			);
+			target = 9B62BC1A2DD86AAA00D384D1 /* ComfyPlayeriOS */;
+		};
+		9B62BC3E2DD9204A00D384D1 /* Exceptions for "Views" folder in "ComfyPlayeriOS" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Components/VideoPreview.swift,
+				LibraryView.swift,
+			);
+			target = 9B62BC1A2DD86AAA00D384D1 /* ComfyPlayeriOS */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		9B62BC1C2DD86AAA00D384D1 /* ComfyPlayeriOS */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = ComfyPlayeriOS;
+			sourceTree = "<group>";
+		};
+		9B62BC302DD917B900D384D1 /* Libraries */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				9B62BC352DD917B900D384D1 /* Exceptions for "Libraries" folder in "ComfyPlayeriOS" target */,
+			);
+			path = Libraries;
+			sourceTree = "<group>";
+		};
+		9B62BC3A2DD9200F00D384D1 /* Views */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				9B62BC3E2DD9204A00D384D1 /* Exceptions for "Views" folder in "ComfyPlayeriOS" target */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		9BA00A352DD7D8F0007CFADD /* ComfyPlayer */ = {
@@ -42,9 +77,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9B62BC2D2DD917A800D384D1 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				9B62BC3A2DD9200F00D384D1 /* Views */,
+				9B62BC302DD917B900D384D1 /* Libraries */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
 		9BA00A2A2DD7D8F0007CFADD = {
 			isa = PBXGroup;
 			children = (
+				9B62BC2D2DD917A800D384D1 /* Shared */,
 				9BA00A352DD7D8F0007CFADD /* ComfyPlayer */,
 				9B62BC1C2DD86AAA00D384D1 /* ComfyPlayeriOS */,
 				9BA00A342DD7D8F0007CFADD /* Products */,
@@ -98,6 +143,8 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
+				9B62BC302DD917B900D384D1 /* Libraries */,
+				9B62BC3A2DD9200F00D384D1 /* Views */,
 				9BA00A352DD7D8F0007CFADD /* ComfyPlayer */,
 			);
 			name = ComfyPlayer;

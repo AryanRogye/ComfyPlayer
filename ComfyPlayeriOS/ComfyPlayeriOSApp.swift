@@ -12,6 +12,9 @@ struct ComfyPlayeriOSApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .onAppear {
+                    LibrariesModel.shared.loadLibraries()
+                }
         }
     }
 }
