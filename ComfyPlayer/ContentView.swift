@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var selectedSidebarItem: SidebarSelection?
-    @StateObject private var libs = LibrariesModel.shared
+    @StateObject private var libsModel = LibrariesModel.shared
     
     
     var body: some View {
@@ -24,9 +24,9 @@ struct ContentView: View {
                     }
 
                     Section("Libraries") {
-                        ForEach(libs.libraries, id: \.self) { library in
+                        ForEach(libsModel.libraries, id: \.self) { library in
                             Text(library.title)
-                                .tag(SidebarSelection.library(library.title))
+                                .tag(SidebarSelection.library(library))
                         }
                     }
                 }
@@ -39,9 +39,13 @@ struct ContentView: View {
                     VideoPlayerView()
                 case .media(.settings):
                     SettingsView()
-                case .library(let title):
-                    Text("Selected Library: \(title)")
-                        .font(.largeTitle)
+                case .library(let library):
+                    if let index = libsModel.libraries.firstIndex(of: library) {
+                        LibraryView(
+                            libs: $libsModel.libraries[index],
+                            selectedSidebarItem: $selectedSidebarItem
+                        )
+                    }
                 default:
                     Text("Select a section")
                         .font(.largeTitle)
@@ -64,7 +68,7 @@ enum ComfySection: String, CaseIterable, Identifiable {
 
 enum SidebarSelection: Hashable {
     case media(ComfySection)
-    case library(String)
+    case library(Library)
 }
 
 

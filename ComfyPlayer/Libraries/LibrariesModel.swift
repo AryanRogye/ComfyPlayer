@@ -45,7 +45,7 @@ class LibrariesModel: ObservableObject {
         for library in libraries {
             print("Library: \(library.title)")
             for video in library.videos {
-                print("Video: \(video.lastPathComponent)")
+                print("Video: \(video.path)")
             }
         }
     }

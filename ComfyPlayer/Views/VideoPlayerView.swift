@@ -5,6 +5,7 @@
 //  Created by Aryan Rogye on 5/16/25.
 //
 import SwiftUI
+import AVKit
 import UniformTypeIdentifiers
 
 struct VideoPlayerView: View {
@@ -160,12 +161,12 @@ struct VideoPlayerView: View {
     
     @ViewBuilder
     func showSelectedVideo(_ video: URL) -> some View {
-        VideoPreviewView(videoURL: video)
+        VideoPreviewView(player: AVPlayer(url: video))
     }
     
     @ViewBuilder
     func showSelectedPath(_ video: URL) -> some View {
-        Text("Selected: \(video.lastPathComponent)")
+        Text("Selected: \(video.path)")
             .font(.subheadline)
             .foregroundColor(.gray)
     }

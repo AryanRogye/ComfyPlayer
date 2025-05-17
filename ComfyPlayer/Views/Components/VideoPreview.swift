@@ -9,13 +9,18 @@ import SwiftUI
 import AVKit
 
 struct VideoPreviewView: View {
-    let videoURL: URL
+    let player: AVPlayer
 
     var body: some View {
-        VideoPlayer(player: AVPlayer(url: videoURL))
-            .frame(minHeight: 400)
-            .cornerRadius(12)
-            .padding()
+        VStack {
+            VideoPlayer(player: player)
+                .frame(minHeight: 400)
+                .cornerRadius(12)
+                .padding()
+                .onAppear {
+                    player.play()
+                }
+        }
     }
 }
 
@@ -30,6 +35,8 @@ struct VideoPlayer: NSViewRepresentable {
     }
 
     func updateNSView(_ nsView: AVPlayerView, context: Context) {
-        nsView.player = player
+        if nsView.player != player {
+            nsView.player = player
+        }
     }
 }
