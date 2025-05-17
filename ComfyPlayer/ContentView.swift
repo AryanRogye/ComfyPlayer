@@ -8,42 +8,46 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var selectedMediaSection: ComfySection? = .videoPlayer
-    @State private var selectedLibraryTitle: String?
+    @State private var selectedSidebarItem: SidebarSelection?
     @StateObject private var libs = LibrariesModel.shared
     
     
     var body: some View {
         ZStack {
             NavigationSplitView {
-                List(selection: $selectedMediaSection) {
+                List(selection: $selectedSidebarItem) {
                     Section("Media") {
                         ForEach(ComfySection.allCases, id: \.self) { section in
                             Text(section.rawValue)
-                                .tag(section)
+                                .tag(SidebarSelection.media(section))
                         }
                     }
+
                     Section("Libraries") {
                         ForEach(libs.libraries, id: \.self) { library in
                             Text(library.title)
-                                .tag(library.title)
+                                .tag(SidebarSelection.library(library.title))
                         }
                     }
                 }
                 .listStyle(SidebarListStyle())
-                .navigationTitle("Comfy Player")
                 
             } detail: {
-                switch selectedMediaSection {
-                case .videoPlayer:
+                
+                switch selectedSidebarItem {
+                case .media(.videoPlayer):
                     VideoPlayerView()
-                case .settings:
+                case .media(.settings):
                     SettingsView()
+                case .library(let title):
+                    Text("Selected Library: \(title)")
+                        .font(.largeTitle)
                 default:
                     Text("Select a section")
                         .font(.largeTitle)
                         .foregroundStyle(.secondary)
                 }
+                
             }
             .navigationSplitViewStyle(.balanced)
         }
@@ -58,9 +62,9 @@ enum ComfySection: String, CaseIterable, Identifiable {
     var id: String { rawValue }
 }
 
-extension ComfySection {
-    static var mediaSections: [ComfySection] = [.videoPlayer, .settings]
-    static var librarySections: [ComfySection] = []
+enum SidebarSelection: Hashable {
+    case media(ComfySection)
+    case library(String)
 }
 
 

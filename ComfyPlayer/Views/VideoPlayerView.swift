@@ -16,6 +16,7 @@ struct VideoPlayerView: View {
     @State private var isDroppingFiles: Bool = false
     
     @State private var libraryID: UUID = UUID()
+    @State var showAlert: Bool = false
     
     init(
         libraryName: String = "",
@@ -74,6 +75,11 @@ struct VideoPlayerView: View {
                 
                 /// Save Library Button
                 Button(action: {
+                    if libraryName.isEmpty || libraryVideos.isEmpty {
+                        /// Show Alert on screen
+                        showAlert = true
+                        return
+                    }
                     LibrariesModel.shared.updateLibrary(Library(
                         title: libraryName,
                         videos: libraryVideos,
@@ -99,6 +105,9 @@ struct VideoPlayerView: View {
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .alert("Library name can't be empty", isPresented: $showAlert) {
+            Button("OK", role: .cancel) { }
+        }
     }
     
     /// Onboarding Video Controls
