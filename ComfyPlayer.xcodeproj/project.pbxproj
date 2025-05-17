@@ -7,10 +7,16 @@
 	objects = {
 
 /* Begin PBXFileReference section */
+		9B62BC1B2DD86AAA00D384D1 /* ComfyPlayeriOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ComfyPlayeriOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9BA00A332DD7D8F0007CFADD /* ComfyPlayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ComfyPlayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		9B62BC1C2DD86AAA00D384D1 /* ComfyPlayeriOS */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = ComfyPlayeriOS;
+			sourceTree = "<group>";
+		};
 		9BA00A352DD7D8F0007CFADD /* ComfyPlayer */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = ComfyPlayer;
@@ -19,6 +25,13 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		9B62BC182DD86AAA00D384D1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		9BA00A302DD7D8F0007CFADD /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -33,6 +46,7 @@
 			isa = PBXGroup;
 			children = (
 				9BA00A352DD7D8F0007CFADD /* ComfyPlayer */,
+				9B62BC1C2DD86AAA00D384D1 /* ComfyPlayeriOS */,
 				9BA00A342DD7D8F0007CFADD /* Products */,
 			);
 			sourceTree = "<group>";
@@ -41,6 +55,7 @@
 			isa = PBXGroup;
 			children = (
 				9BA00A332DD7D8F0007CFADD /* ComfyPlayer.app */,
+				9B62BC1B2DD86AAA00D384D1 /* ComfyPlayeriOS.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -48,6 +63,28 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		9B62BC1A2DD86AAA00D384D1 /* ComfyPlayeriOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9B62BC262DD86AAC00D384D1 /* Build configuration list for PBXNativeTarget "ComfyPlayeriOS" */;
+			buildPhases = (
+				9B62BC172DD86AAA00D384D1 /* Sources */,
+				9B62BC182DD86AAA00D384D1 /* Frameworks */,
+				9B62BC192DD86AAA00D384D1 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				9B62BC1C2DD86AAA00D384D1 /* ComfyPlayeriOS */,
+			);
+			name = ComfyPlayeriOS;
+			packageProductDependencies = (
+			);
+			productName = ComfyPlayeriOS;
+			productReference = 9B62BC1B2DD86AAA00D384D1 /* ComfyPlayeriOS.app */;
+			productType = "com.apple.product-type.application";
+		};
 		9BA00A322DD7D8F0007CFADD /* ComfyPlayer */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9BA00A422DD7D8F2007CFADD /* Build configuration list for PBXNativeTarget "ComfyPlayer" */;
@@ -80,6 +117,9 @@
 				LastSwiftUpdateCheck = 1620;
 				LastUpgradeCheck = 1620;
 				TargetAttributes = {
+					9B62BC1A2DD86AAA00D384D1 = {
+						CreatedOnToolsVersion = 16.2;
+					};
 					9BA00A322DD7D8F0007CFADD = {
 						CreatedOnToolsVersion = 16.2;
 					};
@@ -100,11 +140,19 @@
 			projectRoot = "";
 			targets = (
 				9BA00A322DD7D8F0007CFADD /* ComfyPlayer */,
+				9B62BC1A2DD86AAA00D384D1 /* ComfyPlayeriOS */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		9B62BC192DD86AAA00D384D1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		9BA00A312DD7D8F0007CFADD /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -115,6 +163,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		9B62BC172DD86AAA00D384D1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		9BA00A2F2DD7D8F0007CFADD /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -125,6 +180,69 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
+		9B62BC272DD86AAC00D384D1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"ComfyPlayeriOS/Preview Content\"";
+				DEVELOPMENT_TEAM = B9P888266K;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = app.aryanrogye.ComfyPlayeriOS;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		9B62BC282DD86AAC00D384D1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"ComfyPlayeriOS/Preview Content\"";
+				DEVELOPMENT_TEAM = B9P888266K;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = app.aryanrogye.ComfyPlayeriOS;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 		9BA00A402DD7D8F2007CFADD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -300,6 +418,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		9B62BC262DD86AAC00D384D1 /* Build configuration list for PBXNativeTarget "ComfyPlayeriOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9B62BC272DD86AAC00D384D1 /* Debug */,
+				9B62BC282DD86AAC00D384D1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		9BA00A2E2DD7D8F0007CFADD /* Build configuration list for PBXProject "ComfyPlayer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
