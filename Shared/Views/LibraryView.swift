@@ -33,7 +33,6 @@ struct LibraryView: View {
                         Text(video.path)
                             .font(.title3)
                             .foregroundStyle(.secondary)
-                        Text(FileManager.default.fileExists(atPath: video.path) ? "✅ Exists" : "❌ Missing")
                         dropDown(for: video)
                     }
                     /// Add A Button In Same Format To Add A New Video
@@ -44,18 +43,55 @@ struct LibraryView: View {
         }
     }
     
+    func ensureFileIsDownloaded(_ url: URL, completion: @escaping (Bool) -> Void) {
+        let isDownloadedKey = URLResourceKey("NSURLUbiquitousItemIsDownloadedKey")
+        
+        do {
+            let values = try url.resourceValues(forKeys: [
+                .isUbiquitousItemKey,
+                isDownloadedKey
+            ])
+
+            if values.isUbiquitousItem == true {
+                if let downloaded = values.allValues[isDownloadedKey] as? Bool, downloaded {
+                    print("✅ Already downloaded: \(url.lastPathComponent)")
+                    completion(true)
+                } else {
+                    print("⏳ Not downloaded yet, requesting...")
+                    try FileManager.default.startDownloadingUbiquitousItem(at: url)
+
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                        ensureFileIsDownloaded(url, completion: completion)
+                    }
+                }
+            } else {
+                print("ℹ️ Not an iCloud item — assuming local")
+                completion(true)
+            }
+        } catch {
+            print("❌ Error checking/download: \(error.localizedDescription)")
+            completion(false)
+        }
+    }
+    
     @ViewBuilder
     func dropDown(for video: URL) -> some View {
         DisclosureGroup {
-            HStack {
+            VStack {
                 Text(video.lastPathComponent)
                     .font(.title3)
                     .foregroundStyle(.secondary)
                 Spacer()
-                VideoPreviewView(player: AVPlayer(url: video))
-                    .frame(minHeight: 400)
-                    .cornerRadius(12)
+                if let resolved = libsModel.resolveVideoURL(video) {
+                    VideoPreviewView(player: AVPlayer(url: resolved))
+                } else {
+                    Button("📥 Download from iCloud") {
+                        ensureFileIsDownloaded(video) { success in
+                            print(success ? "✅ Downloaded!" : "❌ Still missing")
+                        }
+                    }
                     .padding()
+                }
             }
         } label: {
             Text(video.lastPathComponent)

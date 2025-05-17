@@ -29,6 +29,11 @@ struct ContentView: View {
                         }
                     }
                 }
+                .refreshable {
+                    await MainActor.run {
+                        libsModel.loadLibraries()
+                    }
+                }
                 .listStyle(SidebarListStyle())
             } detail: {
                 switch selectedSidebarItem {
