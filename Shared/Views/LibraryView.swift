@@ -14,6 +14,7 @@ struct LibraryView: View {
     @Binding var libs: Library
     @Binding var selectedSidebarItem: SidebarSelection?
     @State private var expandedVideo: URL?
+    @State private var downloadTrigger = UUID()
     
     var body: some View {
         ScrollView {
@@ -88,11 +89,13 @@ struct LibraryView: View {
                     Button("📥 Download from iCloud") {
                         ensureFileIsDownloaded(video) { success in
                             print(success ? "✅ Downloaded!" : "❌ Still missing")
+                            downloadTrigger = UUID()
                         }
                     }
                     .padding()
                 }
             }
+            .id(downloadTrigger)
         } label: {
             Text(video.lastPathComponent)
         }
@@ -106,8 +109,8 @@ struct LibraryView: View {
         Button {
             // Delete The Library
             if let index = libsModel.libraries.firstIndex(of: libs) {
-                libsModel.libraries.remove(at: index)
-                libsModel.saveLibraries()
+                let libToDelete : Library = libsModel.libraries[index]
+                libsModel.deleteLibrary(libToDelete)
                 selectedSidebarItem = .media(.videoPlayer)
             }
         } label: {

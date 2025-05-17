@@ -26,6 +26,14 @@ class LibrariesModel: ObservableObject {
         saveLibraries()
     }
     
+    func deleteLibrary(_ library: Library) {
+        if let index = libraries.firstIndex(where: { $0.id == library.id }) {
+            libraries.remove(at: index)
+        }
+        /// Save Libraries to Disk
+        saveLibraries()
+    }
+    
     /// Load Libraries That Were Saved On Disk
     func loadLibraries() {
         guard FileManager.default.ubiquityIdentityToken != nil else {
