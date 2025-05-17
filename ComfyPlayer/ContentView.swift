@@ -15,6 +15,17 @@ struct ContentView: View {
     var body: some View {
         ZStack {
             NavigationSplitView {
+                Button(action: {
+                    Task {
+                        await MainActor.run {
+                            libsModel.loadLibraries()
+                        }
+                    }
+                }) {
+                    /// Refresh
+                    Label("Refresh", systemImage: "arrow.clockwise")
+                        .foregroundColor(.blue)
+                }
                 List(selection: $selectedSidebarItem) {
                     Section("Media") {
                         ForEach(ComfySection.allCases, id: \.self) { section in
@@ -31,7 +42,6 @@ struct ContentView: View {
                     }
                 }
                 .listStyle(SidebarListStyle())
-                
             } detail: {
                 
                 switch selectedSidebarItem {
