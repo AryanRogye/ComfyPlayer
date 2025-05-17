@@ -8,6 +8,7 @@
 import SwiftUI
 import AVKit
 import UniformTypeIdentifiers
+import PhotosUI
 
 struct VideoPlayerView: View {
     
@@ -19,6 +20,8 @@ struct VideoPlayerView: View {
     
     @State private var libraryID: UUID = UUID()
     @State var showAlert: Bool = false
+    @State var showPhotoAlertDenied: Bool = false
+    @State private var pickerDelegate: PickerDelegate? = nil
     
     init(
         libraryName: String = "",
@@ -37,15 +40,13 @@ struct VideoPlayerView: View {
             VStack(spacing: 20) {
                 /// Top Bar
                 ///  - Library Name
-                ///  - Add Video Button
                 HStack {
                     pickLibraryName()
-                    pickVideo()
                 }
                 .padding([.horizontal, .top], 10)
                 
 
-                HStack {
+                VStack {
                     
                     /// Getting Added Video
                     VStack {
@@ -59,8 +60,6 @@ struct VideoPlayerView: View {
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
                     
-                    Divider()
-                        .frame(maxHeight: .infinity)
                     
                     /// Currently Added Videos Paths In Library
                     VStack {
@@ -108,6 +107,9 @@ struct VideoPlayerView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .alert("Library name can't be empty", isPresented: $showAlert) {
+            Button("OK", role: .cancel) { }
+        }
+        .alert("Photo Library Access Denied", isPresented: $showPhotoAlertDenied) {
             Button("OK", role: .cancel) { }
         }
     }
@@ -229,21 +231,58 @@ struct VideoPlayerView: View {
     }
     
     func openVideoPicker() {
-//        let panel = NSOpenPanel()
-//        panel.allowedContentTypes = [.movie]
-//        panel.allowsMultipleSelection = false
-//        panel.canChooseDirectories = false
-//
-//        if panel.runModal() == .OK {
-//            withAnimation(.easeInOut(duration: 0.2)) {
-//                selectedVideo = panel.url
-//            }
+        PHPhotoLibrary.requestAuthorization(for: .readWrite) { status in
+            DispatchQueue.main.async {
+                switch status {
+                case .authorized, .limited:
+                    openPicker()
+                case .denied, .restricted:
+                    showPhotoAlertDenied = true
+                default:
+                    break
+                }
+            }
+        }
+    }
+//       Mark: -  Use Later When Saving We Asked
+//        let readWriteStatus = PHPhotoLibrary.authorizationStatus(for: .readWrite)
+//        
+//        if readWriteStatus == .notDetermined {
+//            
 //        }
+//        else if readWriteStatus == .denied {
+//            showPhotoAlertDenied = true
+//            return
+//        } else if readWriteStatus == .restricted {
+//            showPhotoAlertDenied = true
+//            return
+//        } else if readWriteStatus == .authorized {
+//            openPicker()
+//        }
+        
+    
+    func openPicker() {
+        var config = PHPickerConfiguration(photoLibrary: .shared())
+        config.selectionLimit = 1
+        config.filter = .videos
+
+        let delegate = PickerDelegate { url in
+            if let url = url {
+                selectedVideo = url
+            }
+        }
+        pickerDelegate = delegate // ✅ retain it
+
+        let picker = PHPickerViewController(configuration: config)
+        picker.delegate = delegate
+
+        if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+           let root = scene.windows.first?.rootViewController {
+            root.present(picker, animated: true)
+        }
     }
 }
 
 #Preview {
-    VideoPlayerView(
-        selectedVideo: URL(string: "/Users/aryanrogye/Downloads/StillrOutput_NewLogo.mp4")
-    )
+    VideoPlayerView()
 }

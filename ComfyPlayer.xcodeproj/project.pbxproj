@@ -28,11 +28,21 @@
 			);
 			target = 9B62BC1A2DD86AAA00D384D1 /* ComfyPlayeriOS */;
 		};
+		9B62BCF52DD9383600D384D1 /* Exceptions for "ComfyPlayeriOS" folder in "ComfyPlayeriOS" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 9B62BC1A2DD86AAA00D384D1 /* ComfyPlayeriOS */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		9B62BC1C2DD86AAA00D384D1 /* ComfyPlayeriOS */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				9B62BCF52DD9383600D384D1 /* Exceptions for "ComfyPlayeriOS" folder in "ComfyPlayeriOS" target */,
+			);
 			path = ComfyPlayeriOS;
 			sourceTree = "<group>";
 		};
@@ -239,6 +249,7 @@
 				DEVELOPMENT_TEAM = B9P888266K;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ComfyPlayeriOS/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -271,6 +282,7 @@
 				DEVELOPMENT_TEAM = B9P888266K;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ComfyPlayeriOS/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

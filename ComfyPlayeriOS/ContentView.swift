@@ -10,7 +10,7 @@ import SwiftUI
 struct ContentView: View {
     @State private var selectedSidebarItem: SidebarSelection?
     @StateObject private var libsModel = LibrariesModel.shared
-    
+      
     var body: some View {
         ZStack {
             NavigationSplitView {
