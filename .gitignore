@@ -1,0 +1,26 @@
+*.xcuserstate
+*.xcuserdata/
+*.xcworkspace/
+
+DerivedData/
+build/
+*.build/
+
+*.log
+
+.DS_Store
+
+.swiftpm/
+.build/
+
+*.xcarchive
+
+DeviceSupport/
+
+*.mobileprovision
+
+
+Pods/
+Podfile.lock
+
+*/Preview Content/
