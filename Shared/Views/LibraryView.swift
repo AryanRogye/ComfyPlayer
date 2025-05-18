@@ -15,6 +15,7 @@ struct LibraryView: View {
     @Binding var selectedSidebarItem: SidebarSelection?
     @State private var expandedVideo: URL?
     @State private var downloadTrigger = UUID()
+    @State private var resolvedURLs: [URL: URL?] = [:]
     
     /// Toolbar Controls
     @State private var showFullPath = false
@@ -32,6 +33,7 @@ struct LibraryView: View {
                     listItemsView()
                     Spacer()
                 }
+                .padding()
             } else {
                 VStack {
                     reorderItemsView()
@@ -41,9 +43,9 @@ struct LibraryView: View {
                         showCancelReorderButton()
                     }
                 }
+                .padding()
             }
         }
-        .padding()
         #if os(iOS)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
@@ -101,10 +103,19 @@ struct LibraryView: View {
     @ViewBuilder
     func listItemsView() -> some View {
         ForEach(libs.videos, id: \.self) { video in
-            Text(showFullPath ? video.path : video.lastPathComponent)
-                .font(.title3)
-                .foregroundStyle(.secondary)
-            dropDown(for: video)
+            VStack {
+                Text(showFullPath ? video.path : video.lastPathComponent)
+                    .font(.title3)
+                    .foregroundStyle(.secondary)
+                dropDown(for: video)
+            }
+            .task {
+                if resolvedURLs[video] == nil {
+                    resolvedURLs[video] = libsModel.resolveVideoURL(video)
+                    downloadTrigger = UUID()
+                }
+            }
+
         }
         /// Add A Button In Same Format To Add A New Video
     }
@@ -204,20 +215,10 @@ struct LibraryView: View {
     func dropDown(for video: URL) -> some View {
         DisclosureGroup {
             VStack {
-                Text(video.lastPathComponent)
-                    .font(.title3)
-                    .foregroundStyle(.secondary)
-                Spacer()
-                if let resolved = libsModel.resolveVideoURL(video) {
+                if let resolved = resolvedURLs[video] ?? nil {
                     VideoPreviewView(player: AVPlayer(url: resolved))
                 } else {
-                    Button("📥 Download from iCloud") {
-                        ensureFileIsDownloaded(video) { success in
-                            print(success ? "✅ Downloaded!" : "❌ Still missing")
-                            downloadTrigger = UUID()
-                        }
-                    }
-                    .padding()
+                    ProgressView("Preparing...")
                 }
             }
             .id(downloadTrigger)
