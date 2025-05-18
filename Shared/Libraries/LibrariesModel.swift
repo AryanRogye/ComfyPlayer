@@ -44,6 +44,8 @@ class LibrariesModel: ObservableObject {
             print("❌ iCloud container not available")
             return
         }
+        /// Make Sure Model is Empty
+        libraries.removeAll()
         let dbURL = containerURL.appendingPathComponent("Documents/libraries.json")
         
         let decoder = JSONDecoder()

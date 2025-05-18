@@ -25,6 +25,7 @@
 			membershipExceptions = (
 				Components/VideoPreview.swift,
 				LibraryView.swift,
+				SettingsView.swift,
 			);
 			target = 9B62BC1A2DD86AAA00D384D1 /* ComfyPlayeriOS */;
 		};
@@ -34,6 +35,13 @@
 				Info.plist,
 			);
 			target = 9B62BC1A2DD86AAA00D384D1 /* ComfyPlayeriOS */;
+		};
+		9B62BCF92DDA60C100D384D1 /* Exceptions for "ComfyPlayer" folder in "ComfyPlayer" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 9BA00A322DD7D8F0007CFADD /* ComfyPlayer */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
@@ -64,6 +72,9 @@
 		};
 		9BA00A352DD7D8F0007CFADD /* ComfyPlayer */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				9B62BCF92DDA60C100D384D1 /* Exceptions for "ComfyPlayer" folder in "ComfyPlayer" target */,
+			);
 			path = ComfyPlayer;
 			sourceTree = "<group>";
 		};
@@ -436,6 +447,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ComfyPlayer/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -463,6 +475,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ComfyPlayer/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

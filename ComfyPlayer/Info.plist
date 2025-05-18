@@ -2,10 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CFBundleURLTypes</key>
-	<array>
-		<dict/>
-	</array>
 	<key>UTExportedTypeDeclarations</key>
 	<array>
 		<dict>
@@ -15,8 +11,8 @@
 			</array>
 			<key>UTTypeDescription</key>
 			<string>LibraryTask</string>
-			<key>UTTypeIconFiles</key>
-			<array/>
+			<key>UTTypeIcons</key>
+			<dict/>
 			<key>UTTypeIdentifier</key>
 			<string>com.aryanrogye.ComfyPlayer.library</string>
 			<key>UTTypeTagSpecification</key>

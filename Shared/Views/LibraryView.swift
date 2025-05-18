@@ -16,28 +16,34 @@ struct LibraryView: View {
     @State private var expandedVideo: URL?
     @State private var downloadTrigger = UUID()
     
-    @State private var showMenu = false
+    /// Toolbar Controls
     @State private var showFullPath = false
+    @State private var startReordering = false
+    @State private var localVideos: [URL] = []
     
     var body: some View {
-        ScrollView {
-            VStack {
-                Text("\(libs.title)")
-                    .font(.largeTitle)
-                    .foregroundStyle(.secondary)
-                VStack {
-                    ForEach(libs.videos, id: \.self) { video in
-                        Text(showFullPath ? video.path : video.lastPathComponent)
-                            .font(.title3)
-                            .foregroundStyle(.secondary)
-                        dropDown(for: video)
-                    }
-                    /// Add A Button In Same Format To Add A New Video
+        VStack {
+            Text("\(libs.title)")
+                .font(.largeTitle)
+                .foregroundStyle(.secondary)
+            
+            if !startReordering {
+                ScrollView {
+                    listItemsView()
+                    Spacer()
                 }
-                Spacer()
+            } else {
+                VStack {
+                    reorderItemsView()
+                    Spacer()
+                    HStack {
+                        showSaveReorderButton()
+                        showCancelReorderButton()
+                    }
+                }
             }
-            .padding()
         }
+        .padding()
         #if os(iOS)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
@@ -60,15 +66,96 @@ struct LibraryView: View {
     }
     
     @ViewBuilder
+    func showSaveReorderButton() -> some View {
+        Button("Save Reorder") {
+            saveReorderedVideos()
+        }
+        .buttonStyle(.bordered)
+        .padding()
+    }
+    
+    func saveReorderedVideos() {
+        withAnimation {
+            startReordering = false
+        }
+
+        DispatchQueue.main.async {
+            libs.videos = localVideos
+            libsModel.updateLibrary(libs)
+            selectedSidebarItem = .library(libs)
+        }
+    }
+    
+    @ViewBuilder
+    func showCancelReorderButton() -> some View {
+        Button("Cancel Reorder") {
+            withAnimation(.easeInOut(duration: 0.3)) {
+                startReordering = false
+            }
+            localVideos = libs.videos
+        }
+        .buttonStyle(.bordered)
+        .padding()
+    }
+    
+    @ViewBuilder
+    func listItemsView() -> some View {
+        ForEach(libs.videos, id: \.self) { video in
+            Text(showFullPath ? video.path : video.lastPathComponent)
+                .font(.title3)
+                .foregroundStyle(.secondary)
+            dropDown(for: video)
+        }
+        /// Add A Button In Same Format To Add A New Video
+    }
+    
+    @ViewBuilder
+    func reorderItemsView() -> some View {
+        List {
+            ForEach(localVideos, id: \.self) { video in
+                Text(showFullPath ? video.path : video.lastPathComponent)
+                    .padding()
+                    .font(.title3)
+                    .foregroundStyle(.secondary)
+                    .draggable(video)
+            }
+            .onMove { indices, newOffset in
+                localVideos.move(fromOffsets: indices, toOffset: newOffset)
+            }
+        }
+        #if os(iOS)
+        .environment(\.editMode, .constant(.active))
+        #elseif os(macOS)
+        .environment(\.appearsActive, true)
+        #endif
+    }
+    
+    @ViewBuilder
+    func draggableLibrary(lib: Library) -> some View {
+        VStack {
+            Text(lib.title)
+            Text("\(lib.id)")
+        }
+        .draggable(lib)
+    }
+    
+    @ViewBuilder
     func reorderButton() -> some View {
-        Button(action: {}) {
+        Menu {
+            Button("Reorder", action: {
+                localVideos = libs.videos
+                withAnimation(.easeInOut(duration: 0.3)) {
+                    startReordering = true
+                }
+            })
+        } label: {
             Label("Reorder", systemImage: "arrow.up.arrow.down")
                 .labelStyle(.iconOnly)
                 .foregroundStyle(.primary)
-                .contentShape(Rectangle()) // helps with tap area
+                .contentShape(Rectangle())
         }
-        .help("Reorder Items") // shows tooltip on macOS
-        .buttonStyle(.borderless) // blends well in toolbars or context menus
+        .help("Reorder Items")
+        .buttonStyle(.borderless)
     }
     
     @ViewBuilder

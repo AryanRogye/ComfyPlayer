@@ -39,6 +39,8 @@ struct ContentView: View {
                 switch selectedSidebarItem {
                 case .media(.videoPlayer):
                     VideoPlayerView()
+                case .media(.settings):
+                    SettingsView()
                 case .library(let library):
                     if let index = libsModel.libraries.firstIndex(of: library) {
                         NavigationStack {
