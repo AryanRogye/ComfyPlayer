@@ -8,8 +8,8 @@
 import UIKit
 import PhotosUI
 
-class PickerDelegate: NSObject, PHPickerViewControllerDelegate {
-    let onPick: (URL?) -> Void
+final class PickerDelegate: NSObject, PHPickerViewControllerDelegate {
+    var onPick: (URL?) -> Void
 
     init(onPick: @escaping (URL?) -> Void) {
         self.onPick = onPick
@@ -26,14 +26,11 @@ class PickerDelegate: NSObject, PHPickerViewControllerDelegate {
         if result.itemProvider.hasItemConformingToTypeIdentifier(UTType.movie.identifier) {
             result.itemProvider.loadFileRepresentation(forTypeIdentifier: UTType.movie.identifier) { url, error in
                 guard let srcURL = url else {
-                    print("❌ Failed to load video: \(error?.localizedDescription ?? "unknown")")
                     self.onPick(nil)
                     return
                 }
 
-                // Copy to temp directory
-                let filename = srcURL.lastPathComponent
-                let destURL = FileManager.default.temporaryDirectory.appendingPathComponent(filename)
+                let destURL = FileManager.default.temporaryDirectory.appendingPathComponent(srcURL.lastPathComponent)
 
                 do {
                     if FileManager.default.fileExists(atPath: destURL.path) {
@@ -44,14 +41,12 @@ class PickerDelegate: NSObject, PHPickerViewControllerDelegate {
                         self.onPick(destURL)
                     }
                 } catch {
-                    print("❌ Failed to copy video: \(error.localizedDescription)")
                     DispatchQueue.main.async {
                         self.onPick(nil)
                     }
                 }
             }
         } else {
-            print("❌ Not a video")
             onPick(nil)
         }
     }
