@@ -51,10 +51,12 @@ struct ContentView: View {
                     SettingsView()
                 case .library(let library):
                     if let index = libsModel.libraries.firstIndex(of: library) {
-                        LibraryView(
-                            libs: $libsModel.libraries[index],
-                            selectedSidebarItem: $selectedSidebarItem
-                        )
+                        NavigationStack {
+                            LibraryView(
+                                libs: $libsModel.libraries[index],
+                                selectedSidebarItem: $selectedSidebarItem
+                            )
+                        }
                     }
                 default:
                     Text("Select a section")
